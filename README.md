@@ -3,10 +3,6 @@ carGo A platform to connect cargo vehicles with clients, built using Node.js, Mo
 Great choice! Here's an updated GitHub repository description for your platform, **carGo**:
 
 ---
-
-**carGo**  
-A seamless platform to connect cargo vehicles with clients, built using Node.js, MongoDB, Flutter, and Vue.js. carGo provides real-time tracking, secure payments, and easy booking management for both clients and drivers.
-
 **Features**:
 - User and Driver Registration & Authentication
 - Real-time Cargo Tracking and Notifications
