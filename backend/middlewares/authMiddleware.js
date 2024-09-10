@@ -4,6 +4,7 @@ const User = require("../models/User");
 const protect = async (req, res, next) => {
   let token;
 
+
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -11,14 +12,15 @@ const protect = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(" ")[1];
 
-      // Decode token
+      // Decode token to get user ID
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // Find user by id
+      // Find the user by decoded ID and assign it to req.user
       req.user = await User.findById(decoded.id).select("-password");
 
       next();
     } catch (error) {
+      console.error(error);
       res.status(401).json({ message: "Not authorized, token failed" });
     }
   }
@@ -28,4 +30,19 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = protect;
+const admin = (req, res, next) => {
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
+    res.status(403).json({ message: "Not authorized as an admin" });
+  }
+};
+const driver = (req, res, next) => {
+  if (req.user && req.user.role === "driver") {
+    next();
+  } else {
+    res.status(403).json({ message: "Not authorized as a driver" });
+  }
+};
+
+module.exports = { protect, driver, admin };
